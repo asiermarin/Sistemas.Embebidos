@@ -1,6 +1,9 @@
-from .calculadora import Calculadora
+from core.calculadora import Calculadora
 
 class Main():
 
-    def __init__(self):
+    def main():
         x = Calculadora()
+    
+    if __name__ == "__main__":
+        main()
