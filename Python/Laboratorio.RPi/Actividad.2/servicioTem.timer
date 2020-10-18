@@ -1,0 +1,10 @@
+[Unit]
+Description=Run date.service every 1 minutes
+
+
+[Timer]
+OnCalendar=Mon..Fri
+AccuracySec=15s
+
+[Install]
+WantedBy=timers.target
