@@ -21,5 +21,5 @@ class Contador:
         print(last_time - self._time)
 
 if __name__ == '__main__':
-    # x = Timer(sys.argv[1]) # The value by: ./contador.py [sys.argv[1]]...[sys.argv[2]]
+    # x = Contador(sys.argv[1]) # The value by: ./contador.py [sys.argv[1]]...[sys.argv[2]]
     x = Contador() # To TEST
