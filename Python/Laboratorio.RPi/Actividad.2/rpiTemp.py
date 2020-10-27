@@ -1,7 +1,6 @@
 #!/usr/bin/env python3
 import subprocess
 import os
-import time
 
 def medir_temperatura():
     cpu = subprocess.check_output('sudo cat /sys/class/thermal/thermal_zone0/temp', shell=True)
@@ -19,9 +18,6 @@ def dejar_parpadear():
     print("HA DEJADO DE PARPADEAR")
 
 if __name__ == '__main__':
-    TIEMPO_ESPERA_HASTA_COMRPROBAR = 5.0 # 2 seg
-    empezar_temporizar = time.time()
-    diferencia_tiempo = 0.0
     resultado = parpadear_led()
     if(resultado == 0):
         print("LED PARPADEANDO")

@@ -1,5 +1,5 @@
 [Unit]
-Description=My service
+Description=Temp service
 After=network.target
 
 [Service]
@@ -9,5 +9,5 @@ WorkingDirectory=/home/pi/Servicios/
 
 StandardOutput=inherit
 StandardError=inherit
-Restart=alway
+Restart=always
 User=asiermarinpi

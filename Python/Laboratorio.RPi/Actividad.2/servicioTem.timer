@@ -1,10 +1,10 @@
 [Unit]
-Description=Run date.service every 1 minutes
+Description=Run fichero_servicioTem.service every 1 minutes
 
 
 [Timer]
-OnCalendar=Mon..Fri
-AccuracySec=15s
+OnCalendar=Mon..Fri:0/15
+AccuracySec=1s
 
 [Install]
 WantedBy=timers.target

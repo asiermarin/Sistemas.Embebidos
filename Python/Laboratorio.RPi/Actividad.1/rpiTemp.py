@@ -26,9 +26,8 @@ if __name__ == '__main__':
     while((medir_temperatura() > 40)):
         tiempo_hasta_ahora = time.time()
         diferencia_tiempo = tiempo_hasta_ahora - empezar_temporizar
-        if((TIEMPO_ESPERA_HASTA_COMRPROBAR <= diferencia_tiempo) and resultado != 0): # Se utiliza resultado para 
-                                                                                      # comprobar que ya se ha encendido
-            print(f"segundos: {diferencia_tiempo}")
+        if((TIEMPO_ESPERA_HASTA_COMRPROBAR <= diferencia_tiempo) and resultado != 0): # Se utiliza resultado para comprobar que ya se ha encendido
+            print(f"Segundos: {diferencia_tiempo}")
             resultado = parpadear_led()
             if(resultado == 0):
                 print("LED PARPADEANDO")
