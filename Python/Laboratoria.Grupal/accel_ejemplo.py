@@ -111,14 +111,14 @@ class MMA7660FC():
         """Leer datos desde la posicion 0x03, 1 byte """
         data = bus.read_i2c_block_data(MMA7660FC_DEFAULT_ADDRESS, MMA7660FC_TILT, 1)
         
-        PoLa = data & 0x1C
+        PoLa = data[0] & 0x1C
         
         if PoLa == 0x00:
             orientation = 0 #Desconocido
         elif PoLa == 0x04:
             orientation = 1  #Izquierda: Dispositivo esta en modo paisaje hacia la izquierda
         elif PoLa == 0x08:
-            orientation = 2  #Izquierda: Dispositivo esta en modo paisaje hacia la derecha
+            orientation = 2  #Derecha: Dispositivo esta en modo paisaje hacia la derecha
         elif PoLa == 0x14:
             orientation = 3 # Abajo: Dispositivo está en posición vertical invertida
         elif PoLa == 0x18:
@@ -132,12 +132,18 @@ class MMA7660FC():
 
  # ---------------------- TO DO ----------------
 # Actividad Parte 2 - E
-#    def read_shake(self):
-
-
-
-
-
+    def read_shake(self):
+        data = bus.read_i2c_block_data(MMA7660FC_DEFAULT_ADDRESS, MMA7660FC_TILT, 1)
+        
+        shake = data[0] & Ox80   
+        
+        if shake == 0x80:
+            evento_shake = 1 
+        else:
+            evento_shake = 0
+            
+        print(evento_shake.bit_length())
+        return evento_shake    
 
  # ---------------------- TO DO ----------------
 # Actividad Parte 2 - G
@@ -162,15 +168,23 @@ time.sleep(0.1)
 while True :
     time.sleep(0.1)
     accl = mma7660fc.read_accl()
-    print ("Acceleration in X-Axis : %f"%((accl['x']/21.33) * 9.8) + " m/s2")
-    print ("Acceleration in Y-Axis : %f"%((accl['y']/21.33) * 9.8)+ " m/s2")
-    print ("Acceleration in Z-Axis : %f"%((accl['z']/21.33) * 9.8)+ " m/s2")
+    print("Valores en g:")
+    print ("Acceleration in X-Axis : %f"%(accl['x']/21.33) + "g")
+    print ("Acceleration in Y-Axis : %f"%(accl['y']/21.33)+ "g")
+    print ("Acceleration in Z-Axis : %f"%(accl['z']/21.33)+ "g")
     print (" ************************************* ")
  
          
 # ---------------------- TO DO ----------------
 # Actividad Parte 2 - D
     #imprimir por pantalla los valores de aceleraicón en m/s^2
-
+while True :
+    time.sleep(0.1)
+    accl = mma7660fc.read_accl()
+    print("Valores en m/s2:")
+    print ("Acceleration in X-Axis : %f"%((accl['x']/21.33) * 9.8) + " m/s2")
+    print ("Acceleration in Y-Axis : %f"%((accl['y']/21.33) * 9.8)+ " m/s2")
+    print ("Acceleration in Z-Axis : %f"%((accl['z']/21.33) * 9.8)+ " m/s2")
+    print (" ************************************* ")
 # ---------------------- ----------------------
  
