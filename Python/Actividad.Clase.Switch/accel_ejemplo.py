@@ -101,6 +101,8 @@ class MMA7660FC():
         
         return {'x' : xAccl, 'y' : yAccl, 'z' : zAccl}
 
+
+
   #Función para leer los bits correspondientes a la orentación del sensor
     #Parámetros de la función bus.read_i2c_block_data
         #  direcicón I2C del dispositivo (MMA7660FC_DEFAULT_ADDRESS)

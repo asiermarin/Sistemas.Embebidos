@@ -36,6 +36,25 @@ data1 = bus.read_i2c_block_data(TSL2561_DEFAULT_ADDRESS, 0x0E | 0x80, 2)
 ch0 = data[1] * 256 + data[0] #shift dataHigh to uppber byte
 ch1 = data1[1] * 256 + data1[0] #shift dataHigh to upper byte
 
+if (ch0 < 10):
+    print("Negro total")
+elif (ch0 >= 11 and ch0 <= 50):
+    print(" Muy negro")
+elif (ch0 >= 51 and ch0 <= 200):
+    print("Oscuro en el interior")
+elif (ch0 >= 201 and ch0 <= 400):
+    print("Tenue en el interior")
+elif (ch0 >= 401 and ch0 <= 1000):
+    print("Normal")
+elif (ch0 >= 1001 and ch0 <= 5000):
+    print("Luminsoso")
+elif (ch0 >= 5001 and ch0 <= 10000):
+    print("Luminoso en el exterior")
+elif (ch0 >= 10001 and ch0 <= 30000):
+    print("Muy luminoso en el exterior")
+elif (ch0 >= 30001 and ch0 <= 100000):
+    print("Luz directa")
+
 # Output data to screen
 print ("Espectro completo(IR + Visible) :%d lux" %ch0)
 print ("Valor espectro infrarrojo :%d lux" %ch1)

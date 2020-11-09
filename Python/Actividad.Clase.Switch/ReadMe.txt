@@ -1,0 +1,2 @@
+Nota: El el video de demo sale en el terminal de publisher el log de "datos no enviados". Ignorar el log ya que se puede ver que transmite los datos 
+perfectamente. Se ha puesto un loop de 20 segundos para apreciar el tratamiento de datos.

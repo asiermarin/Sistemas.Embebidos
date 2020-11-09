@@ -1,12 +1,23 @@
+# -----------------------------------
+#     MQTT PUBLISHER DEMO 
+# -----------------------------------
 #@Laura Arjona
 #@Sistemas Embebidos. 2020
+# -----------------------------------
 
-
-# Programa ejemplo de uso del acelerómetro MMA7660FC
-
+import paho.mqtt.publish as publish
+import json
 import smbus
 import time
 import math
+
+topic = "deustoLab/aceleracion"
+
+#Para la actividad 1: usad la IP de la RPi que actúa como broker
+# hostname = ""
+
+#Para la actividad 2: usad la IP del servidor gratutio de mosquitto
+HOSTNAME = "test.mosquitto.org"
 
 # Seleccionar el bus I2C
 bus = smbus.SMBus(1)
@@ -101,6 +112,8 @@ class MMA7660FC():
         
         return {'x' : xAccl, 'y' : yAccl, 'z' : zAccl}
 
+
+
   #Función para leer los bits correspondientes a la orentación del sensor
     #Parámetros de la función bus.read_i2c_block_data
         #  direcicón I2C del dispositivo (MMA7660FC_DEFAULT_ADDRESS)
@@ -164,9 +177,22 @@ mma7660fc.interrupt_config()
 time.sleep(0.1)
  # -------------------------------
 
+def crear_json(eje_x, eje_y, eje_z):
+    print("Creado json")
+    mensaje= {
+      "varx": eje_x,
+      "vary": eje_y,
+      "varz": eje_z
+    }
+    mensaje_json= json.dumps(mensaje)
+    if (publish.single("deustoLab/aceleracion", mensaje_json, hostname=HOSTNAME)):
+        print("Done")
+    else:
+        print("Datos no publicados")
+
 pasos = 0
 while True :
-    time.sleep(0.1)
+    print("Comenzando loop")
     mma7660fc.read_orientation()
     mma7660fc.read_shake()
     accl = mma7660fc.read_accl()
@@ -181,17 +207,5 @@ while True :
     if (mma7660fc.contar_pasos(eje_x, eje_y, eje_z) == True):
         pasos += 1
     print(f"Pasos: {pasos}")
-         
-# ---------------------- TO DO ----------------
-# Actividad Parte 2 - D
-    #imprimir por pantalla los valores de aceleraicón en m/s^2
-while True :
-    time.sleep(0.1)
-    accl = mma7660fc.read_accl()
-    print("Valores en m/s2:")
-    print ("Acceleration in X-Axis : %f"%((accl['x']/21.33) * 9.8) + " m/s2")
-    print ("Acceleration in Y-Axis : %f"%((accl['y']/21.33) * 9.8)+ " m/s2")
-    print ("Acceleration in Z-Axis : %f"%((accl['z']/21.33) * 9.8)+ " m/s2")
-    print (" ************************************* ")
-# ---------------------- ----------------------
- 
+    crear_json(eje_x, eje_y, eje_z)
+    time.sleep(20)
