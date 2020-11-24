@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+    <title>Database medida-valores</title>
+  </head>
+  <body>
+  
+<h2>Database measurement-values</h2>
+<table class="table table-striped">
+<thead class="thead-dark">
+    <tr>
+      <th scope="col">measurement-valueid</th>
+      <th scope="col">measurementid:</th>
+      <th scope="col">Valor</th>
+      <th scope="col">Fecha-hora</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for item in data %}
+<tr> <td>{{item[0]}}</td>  
+    <td>{{item[1]}}</td>
+    <td>{{item[2]}}</td>
+    <td>{{item[3]}}</td>
+</tr>
+{% endfor %}
+  </tbody>
+</table>
+
+  </body>
+</html>
