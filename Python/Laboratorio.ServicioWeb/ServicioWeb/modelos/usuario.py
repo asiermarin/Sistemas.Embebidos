@@ -1,6 +1,7 @@
 from sqlalchemy import SQLAlchemy
+from run import db
 
-class Usuario(base):
+class Usuario():
 
     def __init__(self, nombre, email, contrasenia):
         self.nombre = nombre
