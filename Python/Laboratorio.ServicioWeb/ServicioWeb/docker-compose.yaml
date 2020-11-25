@@ -1,0 +1,12 @@
+version: '2'
+services:
+    mysql:
+      image: mysql-image-service
+      container_name: mysql-service
+      ports:
+         - "127.0.0.1:3306:3306/tcp"
+      environment:
+        MYSQL_ROOT_PASSWORD: rootpassword
+        MYSQL_DATABASE: ServicioWeb
+        MYSQL_USER: adminuser
+        MYSQL_PASSWORD: adminuser

@@ -1,9 +1,6 @@
-class Sensortemperatura:
+from comun.singleton import Singleton
 
-    def crear_instancia_si_no_existe(self):
-        if (self.sensortemperatura == None):
-            self.__sensortemepratura = Sensortemperatura()
-        return self.__sensortemepratura
+class Sensortemperatura(metaclass=Singleton):
     
     def __init__(self):
         self.__sensortemepratura

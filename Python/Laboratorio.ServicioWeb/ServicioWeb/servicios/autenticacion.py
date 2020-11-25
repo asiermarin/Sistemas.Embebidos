@@ -1,5 +1,6 @@
-import 
+from comun.singleton import Singleton
 
-class Autenticacion:
+class Autenticacion(metaclass=Singleton):
 
-    def __init__(self)
+    def __init__(self):
+        print()

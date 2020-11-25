@@ -1,6 +1,7 @@
 from datetime import datetime
+from comun.singleton import Singleton
 
-class Applogging:
+class Applogging(metaclass=Singleton):
     
     def __init__(self, log_type):
         self.log_type = log_type
