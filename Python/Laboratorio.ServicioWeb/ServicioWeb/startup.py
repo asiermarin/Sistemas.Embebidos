@@ -1,31 +1,35 @@
-from sqlalchemy import SQLAlchemy
+from flask import _app_ctx_stack, jsonify
+from flask_cors import CORS
 from controladores.controladortemp import Controladortemp
 from servicios.sensortemp import Sensortemperatura
 from servicios.weblogging import Applogging
 from servicios.mysqlDB import MysqlDB
+from modelos import usuario
+from testunitarios.dbtest import Test
 
 class Startup:
 
     def __init__(self, app):
         self.__app = app
+        CORS(self.__app)
         self.__log_startup = Applogging("Startup")
+        self.sesion = None
         self.__servicio_db = None
         self.__inyeccion_dependencias()
 
     def __inyeccion_dependencias(self):
-        self.__log_startup.info_log("Inicioando instacias de la aplicacion")
+        self.__log_startup.info_log("Iniciando instacias de la aplicacion")
         self.__add_servicio_db()
 
     def __add_servicio_db(self):
-        self.__log_startup.info_log("Iniciando servicio mysql...")
-        log_servicio_db = Applogging("Mysql")
-        self.__app.config['MYSQL_HOST'] = '127.0.0.1'
-        self.__app.config['MYSQL_USER'] = 'adminuser'
-        self.__app.config['MYSQL_PASSWORD'] = 'adminuser'
-        self.__app.config['MYSQL_DB'] = 'ServicioWeb'
-        db = SQLAlchemy(self.__app)
-        self.__servicio_db = MysqlDB(self.__app, log_servicio_db)
-
+        try: 
+            self.__log_startup.info_log("Iniciando servicio mysql...")
+            self.__servicio_db = MysqlDB(self.__app, _app_ctx_stack)
+            self.sesion = self.__servicio_db.sesion
+            self.__log_startup.info_log("Creando tablas...")
+            usuario.Base.metadata.create_all(bind = self.__servicio_db.engine)
+        except:
+            self.__log_startup.error_log("Error a la hora de crear tablas")
 
     def __add_servicio_autenticacion(self):
         self.__log_startup.info_log("Iniciando servicio autenticacion...")
