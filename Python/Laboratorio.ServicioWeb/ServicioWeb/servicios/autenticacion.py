@@ -3,4 +3,4 @@ from comun.singleton import Singleton
 class Autenticacion(metaclass=Singleton):
 
     def __init__(self):
-        print()
+        self.__autenticacion_log = Applogging("Autenticacion")

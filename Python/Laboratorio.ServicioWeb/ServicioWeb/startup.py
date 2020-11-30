@@ -7,6 +7,9 @@ from servicios.mysqlDB import MysqlDB
 from modelos import usuario
 from testunitarios.dbtest import Test
 
+
+from sqlalchemy import exists
+
 class Startup:
 
     def __init__(self, app):
@@ -26,10 +29,21 @@ class Startup:
             self.__log_startup.info_log("Iniciando servicio mysql...")
             self.__servicio_db = MysqlDB(self.__app, _app_ctx_stack)
             self.sesion = self.__servicio_db.sesion
-            self.__log_startup.info_log("Creando tablas...")
+            self.__log_startup.info_log("Creando tablas")
             usuario.Base.metadata.create_all(bind = self.__servicio_db.engine)
+            self.sesion.commit()
+            self.sesion.close()
+            
         except:
             self.__log_startup.error_log("Error a la hora de crear tablas")
+        usuario_random = usuario.Usuario("Asier", "asier@usto.es", "unacontrasenia")
+        self.sesion.add(usuario_random)
+        self.sesion.commit()
+        self.sesion.close()
+        # usuario_anteriormente_creado = self.sesion.query(usuario.Usuario).filter_by(nombre = "Asier")
+        usuario_anteriormente_creado = self.sesion.query(exists().where(usuario.Usuario.nombre == "Asier")).scalar()
+        x = usuario_anteriormente_creado.get_contrasenia()
+        print(x)
 
     def __add_servicio_autenticacion(self):
         self.__log_startup.info_log("Iniciando servicio autenticacion...")

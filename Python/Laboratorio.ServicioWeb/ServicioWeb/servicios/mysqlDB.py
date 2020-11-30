@@ -1,4 +1,4 @@
-from sqlalchemy import create_engine
+from sqlalchemy import create_engine, exists
 from sqlalchemy.ext.declarative import declarative_base
 from comun.singleton import Singleton
 from servicios.weblogging import Applogging
@@ -25,8 +25,11 @@ class MysqlDB(metaclass=Singleton):
             Session = sessionmaker(autocommit=False, autoflush=False, bind=self.engine)
             self.sesion = Session()
         except:
-            self.__mysql_log.error_log("No se ha podido iniciar las instancias de la conexion")
+            self.__mysql_log.error_log("No se han podido iniciar las instancias de la conexion")
 
     def cerrar_conexion(self):
         self.sesion.commit()
         self.sesion.close()
+
+    def exist_in(self):
+        return exists()
