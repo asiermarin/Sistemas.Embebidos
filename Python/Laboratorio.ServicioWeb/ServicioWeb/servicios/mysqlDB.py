@@ -26,10 +26,3 @@ class MysqlDB(metaclass=Singleton):
             self.sesion = Session()
         except:
             self.__mysql_log.error_log("No se han podido iniciar las instancias de la conexion")
-
-    def cerrar_conexion(self):
-        self.sesion.commit()
-        self.sesion.close()
-
-    def exist_in(self):
-        return exists()
