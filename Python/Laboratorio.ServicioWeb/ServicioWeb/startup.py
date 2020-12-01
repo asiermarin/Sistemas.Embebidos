@@ -40,8 +40,8 @@ class Startup:
         self.sesion.add(usuario_random)
         self.sesion.commit()
         self.sesion.close()
-        # usuario_anteriormente_creado = self.sesion.query(usuario.Usuario).filter_by(nombre = "Asier")
-        usuario_anteriormente_creado = self.sesion.query(exists().where(usuario.Usuario.nombre == "Asier")).scalar()
+        usuario_anteriormente_creado = self.sesion.query(usuario.Usuario).filter_by(nombre = "Asier").first()
+        # usuario_anteriormente_creado = self.sesion.query(exists().where(usuario.Usuario.nombre == "Asier")).scalar()
         x = usuario_anteriormente_creado.get_contrasenia()
         print(x)
 
