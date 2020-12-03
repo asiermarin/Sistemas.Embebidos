@@ -1,0 +1,10 @@
+useroracle: asiermarin
+user db: domotoyadmin
+pass: ySyd,r6Y1h:jNw6
+
+MYSQL
+
+direccion: domotoystgsvr.mysql.database.azure.com
+user db: domotoystgsvr@domotoystgsvr
+pass: ySyd,r6Y1h:jNw6
+port: 3306

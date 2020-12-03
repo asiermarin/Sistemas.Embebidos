@@ -17,12 +17,23 @@ class MysqlDB(metaclass=Singleton):
         
     def __init_configuracion(self, _app_ctx_stack):
         try:
-            DATABASE_URI = 'mysql://adminuser:adminuser@127.0.0.1:7000/ServicioWeb'
-            TEST_URI = 'sqlite:///./test.db'
-            self.__mysql_log.info_log(f"Utilizando direccion: {DATABASE_URI}")
-            self.engine = create_engine(DATABASE_URI)
+            usuario = "domotoystgsvr@domotoystgsvr"
+            contrasenia = "ySyd,r6Y1h:jNw6"
+            ip_host = "domotoystgsvr.mysql.database.azure.com"
+            puerto = "3306"
+            base_de_datos = "serviciowebdatabase"
+            BASE_DE_DATOS_REMOTO = f"mysql://{usuario}:{contrasenia}@{ip_host}:{puerto}/{base_de_datos}"
+            # DATABASE_DATOS_LOCAL = 'mysql://adminuser:adminuser@127.0.0.1:7000/ServicioWeb'
+            self.__mysql_log.info_log(f"Utilizando direccion: {BASE_DE_DATOS_REMOTO}")
+            self.engine = create_engine(BASE_DE_DATOS_REMOTO)
             self.engine.connect()
             Session = sessionmaker(autocommit=False, autoflush=False, bind=self.engine)
             self.sesion = Session()
         except:
             self.__mysql_log.error_log("No se han podido iniciar las instancias de la conexion")
+
+    def __obtener_parametros_desde_json(self):
+        print()
+
+    def __crear_cadena_conexion(self):
+        print()
