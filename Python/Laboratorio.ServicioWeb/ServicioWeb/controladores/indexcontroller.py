@@ -1,31 +1,33 @@
 from servicios.weblogging import Applogging
 from flask import render_template, request
 from flask import request, redirect
+from comun.singleton import Singleton
 
+"""  
+# from main import app
+from flask_classful import FlaskView, route
 
-# from flask_classful import FlaskView
-app_modelue = None
-# class Indexcontroller(FlaskView):
-class Indexcontroller:
+# app_modelue = app
 
-    def __init__(self, autenticacion, app):
-        self.__app = app
-        app_module = self.__app
+class Indexcontroller(FlaskView):
+# class Indexcontroller:
+
+    #def __init__(self, autenticacion):
+    def __init__(self):
         self.__controlador_log = Applogging("Controlador Index")
-        self.__autenticacion = autenticacion
+        # self.__autenticacion = autenticacion
         self.__TEMPLATE_INDEX_CONSTANTE = 'index.html'
         self.__TEMPLATE_TEMPERATURA = None
 
-    @app_modelue.route("/", methods=["GET"])
-    def get_index(self):
+    @route("/index", methods=["GET"])
+    def get(self):
         return render_template(self.__TEMPLATE_INDEX_CONSTANTE)
 
-    @app_modelue.route("/", methods=["POST"])
-    def post_index(self):
+    @route("/index", methods=["POST"])
+    def post(self):
         informacion_request = request.form
-        usuario_form = req.get("username")
-        # email_form = req.get("email")
-        contrasenia_form = req.get("password")
+        usuario_form = request.get("username")
+        contrasenia_form = request.get("password")
 
         campos_vacios = self.__algun_campo_vacio()
         if (campos_vacios):
@@ -43,4 +45,4 @@ class Indexcontroller:
             if v == "":
                 campos_requeridos.append(k)
         return campos_requeridos
-
+"""
