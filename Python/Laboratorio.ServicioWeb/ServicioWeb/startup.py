@@ -1,6 +1,6 @@
 from flask import _app_ctx_stack, jsonify
 from flask_cors import CORS
-from controladores.indexcontroller import ModuleIndexControllerInstance
+from controladores.indexcontroller import Indexcontroller
 # from controladores.registrocontroller import Registrocontroller
 from servicios.sensortemp import Sensortemperatura
 from servicios.weblogging import Applogging
@@ -15,7 +15,7 @@ class Startup:
 
     def __init__(self, app):
         self.__app = app
-        CORS(self.__app)
+        # CORS(self.__app)
         self.__log_startup = Applogging("Startup")
         self.sesion = None
         self.__servicio_db = None
@@ -41,5 +41,5 @@ class Startup:
     def __add_servicio_autenticacion(self):
         self.__log_startup.info_log("Iniciando servicio autenticacion...")
         servicio_auth = Autenticacion(self.sesion)
-        index_controller = ModuleIndexControllerInstance(self.__app, servicio_auth)
-        # Indexcontroller.register(self.__app)
+        self.__app.add_url_rule('/index', endpoint = 'index', view_func = Indexcontroller.as_view(
+            'index', autenticacion = servicio_auth), methods = ["GET", "POST"])

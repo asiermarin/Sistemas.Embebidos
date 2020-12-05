@@ -2,36 +2,28 @@ from servicios.weblogging import Applogging
 from flask import render_template, request
 from flask import request, redirect
 from comun.singleton import Singleton
+from flask.views import MethodView   
+from modelos.usuario import Usuario
 
-"""  
-# from main import app
-from flask_classful import FlaskView, route
+class Indexcontroller(MethodView):
 
-# app_modelue = app
+    def __init__(self, autenticacion):
 
-class Indexcontroller(FlaskView):
-# class Indexcontroller:
-
-    #def __init__(self, autenticacion):
-    def __init__(self):
         self.__controlador_log = Applogging("Controlador Index")
-        # self.__autenticacion = autenticacion
-        self.__TEMPLATE_INDEX_CONSTANTE = 'index.html'
+        self.__autenticacion = autenticacion
+        self.__TEMPLATE_INDEX_CONSTANTE = '/index.html'
         self.__TEMPLATE_TEMPERATURA = None
 
-    @route("/index", methods=["GET"])
     def get(self):
-        return render_template(self.__TEMPLATE_INDEX_CONSTANTE)
+        return render_template('prueba.html')
 
-    @route("/index", methods=["POST"])
     def post(self):
         informacion_request = request.form
-        usuario_form = request.get("username")
-        contrasenia_form = request.get("password")
-
-        campos_vacios = self.__algun_campo_vacio()
+        usuario_form = informacion_request.get("nombre")
+        contrasenia_form = informacion_request.get("contrasenia")
+        campos_vacios = self.__revisar_campos_vacios(informacion_request)
         if (campos_vacios):
-            self.__controlador_log.info_log("Se han encontrado campos vacios")
+            self.__controlador_log.warning_log("Se han encontrado campos vacios")
             feedback = f"Campos vacios en {', '.join(campos_vacios)}"
             return render_template(self.__TEMPLATE_INDEX_CONSTANTE, feedback=feedback)
         else:
@@ -39,10 +31,9 @@ class Indexcontroller(FlaskView):
             if (autenticacion_aceptada):
                 return render_template(self.__TEMPLATE_INDEX_CONSTANTE, feedback=feedback)
 
-    def __algun_campo_vacio(self, request):
-        campos_requeridos = list()
-        for k, v in request.items():
+    def __revisar_campos_vacios(self, informacion_request):
+        campos_requeridos = []
+        for k, v in informacion_request.items():
             if v == "":
                 campos_requeridos.append(k)
         return campos_requeridos
-"""
