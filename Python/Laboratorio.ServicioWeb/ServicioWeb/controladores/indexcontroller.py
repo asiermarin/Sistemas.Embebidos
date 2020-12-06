@@ -8,7 +8,6 @@ from modelos.usuario import Usuario
 class Indexcontroller(MethodView):
 
     def __init__(self, autenticacion):
-
         self.__controlador_log = Applogging("Controlador Index")
         self.__autenticacion = autenticacion
         self.__TEMPLATE_INDEX_CONSTANTE = '/index.html'

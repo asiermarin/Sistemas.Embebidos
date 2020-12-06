@@ -1,15 +1,12 @@
 from flask import _app_ctx_stack, jsonify
 from flask_cors import CORS
 from controladores.indexcontroller import Indexcontroller
-# from controladores.registrocontroller import Registrocontroller
 from servicios.sensortemp import Sensortemperatura
 from servicios.weblogging import Applogging
 from servicios.mysqlDB import MysqlDB
 from servicios.autenticacion import Autenticacion
 from modelos import usuario
 from testunitarios.dbtest import Test
-
-# from main import app
 
 class Startup:
 
@@ -27,6 +24,7 @@ class Startup:
         self.__add_servicio_autenticacion()
 
     def __add_servicio_db(self):
+        self.__servicio_db = MysqlDB(self.__app, _app_ctx_stack)
         try: 
             self.__log_startup.info_log("Iniciando servicio mysql...")
             self.__servicio_db = MysqlDB(self.__app, _app_ctx_stack)
