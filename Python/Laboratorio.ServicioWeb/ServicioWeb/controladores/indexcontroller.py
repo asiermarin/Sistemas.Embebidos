@@ -1,14 +1,12 @@
-from servicios.weblogging import Applogging
 from flask import render_template, request
 from flask import request, redirect
-from comun.singleton import Singleton
 from flask.views import MethodView   
 from modelos.usuario import Usuario
 
 class Indexcontroller(MethodView):
 
-    def __init__(self, autenticacion):
-        self.__controlador_log = Applogging("Controlador Index")
+    def __init__(self, autenticacion, index_controller_log):
+        self.__controlador_log = index_controller_log
         self.__autenticacion = autenticacion
         self.__TEMPLATE_INDEX_CONSTANTE = '/index.html'
         self.__TEMPLATE_TEMPERATURA = None

@@ -17,13 +17,7 @@ class MysqlDB(metaclass=Singleton):
         self.__init_configuracion(_app_ctx_stack)
         
     def __init_configuracion(self, _app_ctx_stack):
-        BASE_DE_DATOS_REMOTO = self.__obtener_parametros_servidor_desde_json()
         try:
-            usuario = "domotoystgsvr@domotoystgsvr"
-            contrasenia = "ySyd,r6Y1h:jNw6"
-            ip_host = "domotoystgsvr.mysql.database.azure.com"
-            puerto = "3306"
-            base_de_datos = "serviciowebdatabase"
             BASE_DE_DATOS_REMOTO = self.__obtener_parametros_servidor_desde_json()
             # DATABASE_DOCKER_LOCAL = 'mysql://adminuser:adminuser@127.0.0.1:7000/ServicioWeb'
             self.__mysql_log.info_log(f"Utilizando direccion: {BASE_DE_DATOS_REMOTO}")
@@ -35,19 +29,22 @@ class MysqlDB(metaclass=Singleton):
             self.__mysql_log.error_log("No se han podido iniciar las instancias de la conexion")
 
     def __obtener_parametros_servidor_desde_json(self):
-        cadena_conexion = None
-        with open("serversettings.json") as server_settings_json:
-            datos = json.load(server_settings_json)
-            self.__mysql_log.info_log(datos)
-            for configuracion in datos:
-                usuario = configuracion['admin-user']
-                contrasenia = configuracion['password']
-                ip_host = configuracion['host']
-                puerto = configuracion['port']
-                base_de_datos = configuracion['db']
-                cadena_conexion = self.__crear_cadena_conexion(usuario, contrasenia, ip_host, puerto, base_de_datos)
-        return cadena_conexion
-
+        try:
+            cadena_conexion = None
+            with open("serversettings.json") as server_settings_json:
+                datos = json.load(server_settings_json)
+                self.__mysql_log.info_log(datos)
+                for configuracion in datos['settings']:
+                    usuario = configuracion['admin-user']
+                    contrasenia = configuracion['password']
+                    ip_host = configuracion['host']
+                    puerto = configuracion['port']
+                    base_de_datos = configuracion['db']
+                    cadena_conexion = self.__crear_cadena_conexion(
+                        usuario, contrasenia, ip_host, puerto, base_de_datos)
+            return cadena_conexion
+        except:
+            self.__mysql_log.error_log("No se ha podido obtener las credenciales de servidor remoto")
 
     def __crear_cadena_conexion(self, usuario, contrasenia, ip_host, puerto, base_de_datos):
         return f"mysql://{usuario}:{contrasenia}@{ip_host}:{puerto}/{base_de_datos}"
