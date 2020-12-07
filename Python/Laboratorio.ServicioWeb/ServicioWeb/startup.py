@@ -38,3 +38,6 @@ class Startup:
         index_controller_log = Applogging("Controlador Index")
         self.__app.add_url_rule('/index', endpoint = 'index', view_func = Indexcontroller.as_view(
             'index', autenticacion = self.servicio_autenticacion, index_controller_log = index_controller_log), methods = ["GET", "POST"])
+        self.__app.add_url_rule('/registro', endpoint = 'registro', view_func = Indexcontroller.as_view(
+            'registro', autenticacion = self.servicio_autenticacion, index_controller_log = index_controller_log), methods = ["GET", "POST"])
+        

@@ -2,17 +2,16 @@ from flask import render_template, request
 from flask import request, redirect
 from flask.views import MethodView   
 from modelos.usuario import Usuario
+from static.constantes import TEMPLATE_INDEX_CONSTANTE, TEMPLATE_PRINCIPAL_CONSTANTE
 
 class Indexcontroller(MethodView):
 
     def __init__(self, autenticacion, index_controller_log):
         self.__controlador_log = index_controller_log
         self.__autenticacion = autenticacion
-        self.__TEMPLATE_INDEX_CONSTANTE = '/index.html'
-        self.__TEMPLATE_TEMPERATURA = None
 
     def get(self):
-        return render_template('prueba.html')
+        return render_template(TEMPLATE_INDEX_CONSTANTE)
 
     def post(self):
         informacion_request = request.form
@@ -22,11 +21,14 @@ class Indexcontroller(MethodView):
         if (campos_vacios):
             self.__controlador_log.warning_log("Se han encontrado campos vacios")
             feedback = f"Campos vacios en {', '.join(campos_vacios)}"
-            return render_template(self.__TEMPLATE_INDEX_CONSTANTE, feedback=feedback)
+            return render_template(TEMPLATE_INDEX_CONSTANTE, feedback=feedback)
         else:
             autenticacion_aceptada = self.__autenticacion.comprobar_autenticacion(usuario_form, contrasenia_form)
             if (autenticacion_aceptada):
-                return render_template(self.__TEMPLATE_INDEX_CONSTANTE, feedback=feedback)
+                return render_template(TEMPLATE_PRINCIPAL_CONSTANTE, feedback=feedback)
+            else:
+                feedback = f"Credenciales no creectas"
+                return render_template(TEMPLATE_INDEX_CONSTANTE, feedback=feedback)
 
     def __revisar_campos_vacios(self, informacion_request):
         campos_requeridos = []

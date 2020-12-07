@@ -4,7 +4,7 @@ from flask.views import MethodView
 from modelos.usuario import Usuario
 from static.constantes import TEMPLATE_INDEX_CONSTANTE, TEMPLATE_REGISTRO_CONSTANTE
 
-class Registrocontroller(MethodView):
+class Principalcontroller(MethodView):
 
     def __init__(self, autenticacion, registro_controller_log):
         self.__registro_log = registro_controller_log
