@@ -1,6 +1,6 @@
 from flask import _app_ctx_stack, jsonify
 from controladores.indexcontroller import Indexcontroller
-from servicios.sensortemp import Sensortemperatura
+from servicios.rpi import Rpi
 from servicios.weblogging import Applogging
 from servicios.mysqlDB import MysqlDB
 from servicios.autenticacion import Autenticacion
@@ -38,6 +38,10 @@ class Startup:
         index_controller_log = Applogging("Controlador Index")
         self.__app.add_url_rule('/index', endpoint = 'index', view_func = Indexcontroller.as_view(
             'index', autenticacion = self.servicio_autenticacion, index_controller_log = index_controller_log), methods = ["GET", "POST"])
+        registro_controller_log = Applogging("Controlador Registro")
         self.__app.add_url_rule('/registro', endpoint = 'registro', view_func = Indexcontroller.as_view(
-            'registro', autenticacion = self.servicio_autenticacion, index_controller_log = index_controller_log), methods = ["GET", "POST"])
+            'registro', autenticacion = self.servicio_autenticacion, registro_controller_log = registro_controller_log), methods = ["GET", "POST"])
+
+    def __add_servicio_rpi(self):
+        print()
         

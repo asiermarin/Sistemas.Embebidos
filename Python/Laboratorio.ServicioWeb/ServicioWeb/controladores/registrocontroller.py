@@ -15,7 +15,8 @@ class Registrocontroller(MethodView):
 
     def post(self):
         informacion_request = request.form
-        usuario_form = informacion_request.get("nombre")
+        nombre_form = informacion_request.get("nombre")
+        email_form = informacion_request.get("email")
         contrasenia_form = informacion_request.get("contrasenia")
         campos_vacios = self.__revisar_campos_vacios(informacion_request)
         if (campos_vacios):
@@ -23,6 +24,7 @@ class Registrocontroller(MethodView):
             feedback = f"Campos vacios en {', '.join(campos_vacios)}"
             return render_template(TEMPLATE_REGISTRO_CONSTANTE, feedback=feedback)
         else:
+            self.__autenticacion.crear_usuario(nombre_form, email_form, contrasenia_form)
             return render_template(TEMPLATE_INDEX_CONSTANTE)
 
     def __revisar_campos_vacios(self, informacion_request):

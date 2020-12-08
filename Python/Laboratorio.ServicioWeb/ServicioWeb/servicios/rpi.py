@@ -1,6 +1,6 @@
 from comun.singleton import Singleton
 
-class Sensortemperatura(metaclass=Singleton):
+class Rpi(metaclass=Singleton):
     
     def __init__(self):
         self.__sensortemepratura
