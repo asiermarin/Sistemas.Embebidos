@@ -7,8 +7,8 @@ from static.constantes import TEMPLATE_INDEX_CONSTANTE, TEMPLATE_REGISTRO_CONSTA
 class Registrocontroller(MethodView):
 
     def __init__(self, autenticacion, registro_controller_log):
-        self.__registro_log = registro_controller_log
         self.__autenticacion = autenticacion
+        self.__registro_log = registro_controller_log
 
     def get(self):
         return render_template(TEMPLATE_REGISTRO_CONSTANTE)
@@ -24,8 +24,12 @@ class Registrocontroller(MethodView):
             feedback = f"Campos vacios en {', '.join(campos_vacios)}"
             return render_template(TEMPLATE_REGISTRO_CONSTANTE, feedback=feedback)
         else:
-            self.__autenticacion.crear_usuario(nombre_form, email_form, contrasenia_form)
-            return render_template(TEMPLATE_INDEX_CONSTANTE)
+            usuario_creado = self.__autenticacion.crear_usuario(nombre_form, email_form, contrasenia_form)
+            if (usuario_creado):
+                return render_template(TEMPLATE_INDEX_CONSTANTE)
+            else:
+                feedback = self.__registro_log.error_feeddback("El usuario no es correcto o ya existe")
+                return render_template(TEMPLATE_REGISTRO_CONSTANTE)
 
     def __revisar_campos_vacios(self, informacion_request):
         campos_requeridos = []

@@ -1,9 +1,11 @@
 {
-    "settings": {
-        "host": "domotoystgsvr.mysql.database.azure.com",
-        "admin-user": "domotoystgsvr@domotoystgsvr", 
-        "password": "ySyd,r6Y1h:jNw6",
-        "port": "3306",
-        "nombre-base-de-datos": "serviciowebdatabase"
-    }
+    "settings": [
+        {
+            "host": "domotoystgsvr.mysql.database.azure.com",
+            "admin-user": "domotoystgsvr@domotoystgsvr", 
+            "password": "ySyd,r6Y1h:jNw6",
+            "port": "3306",
+            "db": "serviciowebdatabase"
+        }
+    ]
 }

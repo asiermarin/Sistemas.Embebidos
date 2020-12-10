@@ -6,9 +6,13 @@ from static.constantes import TEMPLATE_INDEX_CONSTANTE, TEMPLATE_REGISTRO_CONSTA
 
 class Principalcontroller(MethodView):
 
-    def __init__(self, rpi, principal_controller_log):
+    def __init__(self, autenticacion , rpi, principal_controller_log):
+        self.__autenticacion = autenticacion
         self.__principal_log = principal_controller_log
-        self.rpi = rpi
+        self.__rpi = rpi
 
     def get(self):
-        return render_template(TEMPLATE_REGISTRO_CONSTANTE)
+        if (self.__autenticacion.usuario_autenticado == True):
+            return render_template(TEMPLATE_REGISTRO_CONSTANTE)
+        else:
+            return render_template(TEMPLATE_INDEX_CONSTANTE)

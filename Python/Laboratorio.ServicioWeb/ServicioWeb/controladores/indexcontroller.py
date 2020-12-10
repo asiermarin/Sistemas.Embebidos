@@ -11,6 +11,7 @@ class Indexcontroller(MethodView):
         self.__autenticacion = autenticacion
 
     def get(self):
+        self.__autenticacion.usuario_autenticado = False
         return render_template(TEMPLATE_INDEX_CONSTANTE)
 
     def post(self):
