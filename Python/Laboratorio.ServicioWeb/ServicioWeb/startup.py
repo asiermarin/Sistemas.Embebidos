@@ -15,12 +15,14 @@ class Startup:
         self.__log_startup = Applogging("Startup")
         self.servicio_db = None
         self.servicio_autenticacion = None
+        self.servicio_rpi = None
         self.__inyeccion_dependencias()
 
     def __inyeccion_dependencias(self):
         self.__log_startup.info_log("Iniciando instacias de la aplicacion")
         self.__add_servicio_db()
         self.__add_servicio_autenticacion()
+        self.__add_servicio_rpi()
 
     def __add_servicio_db(self):
         try: 
@@ -29,13 +31,12 @@ class Startup:
             self.__log_startup.info_log("Creando tablas")
             usuario.Base.metadata.create_all(bind = self.servicio_db.engine)
             self.servicio_db.sesion.commit()
-            self.servicio_db.sesion.close()  
         except:
             self.__log_startup.error_log("Error a la hora de crear tablas")
         
     def __add_servicio_autenticacion(self):
         self.__log_startup.info_log("Iniciando servicio autenticacion...")
-        self.servicio_autenticacion = Autenticacion(self.servicio_db.sesion)
+        self.servicio_autenticacion = Autenticacion(self.servicio_db)
 
         index_controller_log = Applogging("Controlador Index")
         self.__app.add_url_rule('/', endpoint = 'index', view_func = Indexcontroller.as_view(
@@ -46,5 +47,5 @@ class Startup:
             'registro', autenticacion = self.servicio_autenticacion, registro_controller_log = registro_controller_log), methods = ["GET", "POST"])
 
     def __add_servicio_rpi(self):
-        print()
-        
+        self.__log_startup.info_log("Iniciando servicio rpi...")
+        self.servicio_rpi = Rpi()

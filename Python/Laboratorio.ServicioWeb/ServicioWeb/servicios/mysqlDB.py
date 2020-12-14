@@ -15,13 +15,26 @@ class MysqlDB(metaclass=Singleton):
         self.engine = None
         self.sesion = None
         self.__init_configuracion(_app_ctx_stack)
+
+    def crear_nueva_conexion_si_ha_caducado(self):
+        try:
+            self.sesion.rollback()
+            id = self.engine.execute("SELECT id FROM serviciowebdatabase.usuario").first()
+            return self.sesion
+        except:
+            self.__mysql_log.warning_log("La sesion ha caducado o ha habido un problema inesperado")
+            self.engine.connect()
+            Session = sessionmaker(autocommit=False, autoflush=False, bind=self.engine)
+            self.sesion = Session()
+            self.__mysql_log.info_log("Se ha establecido una nueva conexion")
+            return self.sesion
         
     def __init_configuracion(self, _app_ctx_stack):
         try:
             BASE_DE_DATOS_REMOTO = self.__obtener_parametros_servidor_desde_json()
-            # DATABASE_DOCKER_LOCAL = 'mysql://adminuser:adminuser@127.0.0.1:7000/ServicioWeb'
+            # DATABASE_DOCKER_LOCAL = 'mysql://adminuser:adminuser@127.0.0.1:7000/ServicioWeb' # es la conexion para hacer pruebas con mysql utilizando Docker 
             self.__mysql_log.info_log(f"Utilizando direccion: {BASE_DE_DATOS_REMOTO}")
-            self.engine = create_engine(BASE_DE_DATOS_REMOTO)
+            self.engine = create_engine(BASE_DE_DATOS_REMOTO, pool_pre_ping = True)
             self.engine.connect()
             Session = sessionmaker(autocommit=False, autoflush=False, bind=self.engine)
             self.sesion = Session()

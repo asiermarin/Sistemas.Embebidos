@@ -26,9 +26,9 @@ class Indexcontroller(MethodView):
         else:
             autenticacion_aceptada = self.__autenticacion.comprobar_autenticacion(usuario_form, contrasenia_form)
             if (autenticacion_aceptada):
-                return render_template(TEMPLATE_PRINCIPAL_CONSTANTE, feedback=feedback)
+                return render_template(TEMPLATE_PRINCIPAL_CONSTANTE)
             else:
-                feedback = f"Credenciales no creectas"
+                feedback = f"Credenciales no correctas"
                 return render_template(TEMPLATE_INDEX_CONSTANTE, feedback=feedback)
 
     def __revisar_campos_vacios(self, informacion_request):
