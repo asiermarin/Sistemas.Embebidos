@@ -1,6 +1,7 @@
 from flask import _app_ctx_stack, jsonify
 from controladores.indexcontroller import Indexcontroller
 from controladores.registrocontroller import Registrocontroller
+from controladores.principalcontroller import Principalcontroller
 from servicios.rpi import Rpi
 from servicios.weblogging import Applogging
 from servicios.mysqlDB import MysqlDB
@@ -49,3 +50,7 @@ class Startup:
     def __add_servicio_rpi(self):
         self.__log_startup.info_log("Iniciando servicio rpi...")
         self.servicio_rpi = Rpi()
+
+        principal_controller_log = Applogging("Controlador Principal")
+        self.__app.add_url_rule('/principal', endpoint = 'principal', view_func = Principalcontroller.as_view(
+            'principal', autenticacion = self.servicio_autenticacion, rpi = self.servicio_rpi, principal_controller_log = principal_controller_log), methods = ["GET"])
