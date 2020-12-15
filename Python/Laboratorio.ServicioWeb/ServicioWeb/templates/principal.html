@@ -5,9 +5,13 @@
   <div class="row">
     <div class="col">
       <h2>Inicio Sesion</h2>
-      <hr>
+      <p>Temperatura CPU: {{ cpu }}</p>
+      <p>Temperatura Sensor: {{ temperatura_externa }}</p>
       <form action="/" method="GET">
         <button type="submit" class="btn btn-primary">Log out</button>
+      </form>
+      <form action="/principal" method="POST">
+        <button type="submit" class="btn btn-primary">Apagar luz</button>
       </form>
     </div>
   </div>

@@ -2,7 +2,7 @@ from flask import render_template, request
 from flask import request, redirect
 from flask.views import MethodView   
 from modelos.usuario import Usuario
-from static.constantes import TEMPLATE_INDEX_CONSTANTE, TEMPLATE_PRINCIPAL_CONSTANTE
+from static.constantes import TEMPLATE_INDEX_CONSTANTE, TEMPLATE_PRINCIPAL_CONSTANTE, DIRECCION_PRINCIPAL_CONSTANTE
 
 class Indexcontroller(MethodView):
 
@@ -26,7 +26,7 @@ class Indexcontroller(MethodView):
         else:
             autenticacion_aceptada = self.__autenticacion.comprobar_autenticacion(usuario_form, contrasenia_form)
             if (autenticacion_aceptada):
-                return render_template(TEMPLATE_PRINCIPAL_CONSTANTE)
+                return redirect(DIRECCION_PRINCIPAL_CONSTANTE)
             else:
                 feedback = f"Credenciales no correctas"
                 return render_template(TEMPLATE_INDEX_CONSTANTE, feedback=feedback)

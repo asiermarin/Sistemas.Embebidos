@@ -53,4 +53,4 @@ class Startup:
 
         principal_controller_log = Applogging("Controlador Principal")
         self.__app.add_url_rule('/principal', endpoint = 'principal', view_func = Principalcontroller.as_view(
-            'principal', autenticacion = self.servicio_autenticacion, rpi = self.servicio_rpi, principal_controller_log = principal_controller_log), methods = ["GET"])
+            'principal', autenticacion = self.servicio_autenticacion, rpi = self.servicio_rpi, principal_controller_log = principal_controller_log), methods = ["GET", "POST"])
