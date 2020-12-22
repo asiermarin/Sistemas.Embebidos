@@ -61,4 +61,4 @@ class MysqlDB(metaclass=Singleton):
             self.__mysql_log.error_log("No se ha podido obtener las credenciales de servidor remoto")
 
     def __crear_cadena_conexion(self, usuario, contrasenia, ip_host, puerto, base_de_datos):
-        return f"mysql://{usuario}:{contrasenia}@{ip_host}:{puerto}/{base_de_datos}"
+        return f"mysql+mysqldb://{usuario}:{contrasenia}@{ip_host}:{puerto}/{base_de_datos}"

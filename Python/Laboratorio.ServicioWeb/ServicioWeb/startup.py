@@ -1,4 +1,5 @@
 from flask import _app_ctx_stack, jsonify
+import pymysql
 from controladores.indexcontroller import Indexcontroller
 from controladores.registrocontroller import Registrocontroller
 from controladores.principalcontroller import Principalcontroller
@@ -8,6 +9,8 @@ from servicios.mysqlDB import MysqlDB
 from servicios.autenticacion import Autenticacion
 from modelos import usuario
 from testunitarios.dbtest import Test
+
+pymysql.install_as_MySQLdb() # hay un error con el paquete principal de mysqlclient, utilizo esta linea para obligar utilizar este paquete
 
 class Startup:
 

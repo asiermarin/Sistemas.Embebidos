@@ -1,12 +1,16 @@
-from comun.singleton import Singleton
-from servicios.weblogging import Applogging
-from static.constantes import SECUANCIA_SEGUNDOS_RPI
-import threading
-import atexit
+try:
+    import RPi.GPIO as GPIO
+except:
+    print("")
 
 import subprocess
 import os
 import time
+import threading
+import atexit
+from comun.singleton import Singleton
+from servicios.weblogging import Applogging
+from static.constantes import SECUANCIA_SEGUNDOS_RPI
 
 class Rpi(metaclass=Singleton):
     
@@ -14,10 +18,19 @@ class Rpi(metaclass=Singleton):
         self.__rpi_log = Applogging("RPI")
         self.__hilo_datalock = threading.Lock()
         self.__hilo_rpi = threading.Thread()
+        self.__pin_buzzer = 17
         self.temperatura_cpu = None
         self.temperatura_externa_sensor = None
         self.parpadear = True
         self.__comenzar_servicio_background()
+
+    def pitar_buzzer(self):
+        try:
+            GPIO.output(self.__pin_buzzer, GPIO.HIGH)
+            time.sleep(1)
+            GPIO.output(self.__pin_buzzer, GPIO.OUT)
+        except:
+            self.__rpi_log.error_log("No se ha podido pitar")
 
     def __obtener_datos_rpi(self):
         try:
@@ -26,14 +39,20 @@ class Rpi(metaclass=Singleton):
             if (self.temperatura_cpu > 40 and self.parpadear == True):
                 self.__parpadear_led()
             else:
-                self.__dejar_parpadear()
+                self.__dejar_parpadear() 
         except:
             self.__rpi_log.error_log("No se ha podido obtener datos de la rpi")
         with self.__hilo_datalock:
             self.__hilo_rpi.start()
 
     def __comenzar_servicio_background(self):
-        self.__hilo_rpi = threading.Timer(0, self.__obtener_datos_rpi, ()) # El servicio se inicia automaticamente
+        try:
+            GPIO.setwarnings(False)
+            GPIO.setmode(GPIO.BCM)
+            GPIO.setup(self.__pin_buzzer,GPIO.OUT)
+        except:
+            self.__rpi_log.error_log("No se han podido configurar las salidas GPIO")
+        self.__hilo_rpi = threading.Timer(0, self.__obtener_datos_rpi, ())
         self.__rpi_log.info_log("Servicio RPI comenzando en background")
         self.__hilo_rpi.start()
 

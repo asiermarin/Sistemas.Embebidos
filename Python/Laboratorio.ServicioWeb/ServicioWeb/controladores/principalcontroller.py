@@ -13,6 +13,7 @@ class Principalcontroller(MethodView):
 
     def get(self):
         if (self.__servicio_autenticacion.usuario_autenticado == True):
+            self.__rpi.pitar_buzzer()
             templateData = {
                 'cpu' : self.__rpi.temperatura_cpu,
                 'temperatura_externa' : self.__rpi.temperatura_externa_sensor,
